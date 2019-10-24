@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+ * 钉钉用户表
+ * @author 张明慧
+ * @version 0.0.2
+ * @since 0.0.2 2019-01-02 09:13:50
+-->
+<mapper namespace="com.springboot.demo.springboottest.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.springboot.demo.springboottest.model.User">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		id, name, phone
+	</sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" /> FROM user
+    </select>
+
+
+    <select id="findById" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where id = #{id}
+    </select>
+
+    <select id="findByName" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where name = #{name}
+    </select>
+
+    <select id="findByPhone" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where phone = #{phone}
+    </select>
+
+
+    <insert id="insertByUser" parameterType="User" keyProperty="id">
+		insert into
+		user(id,name,phone)
+		values
+		(#{user.id},#{user.name},#{user.phone})
+	</insert>
+
+    <update id="update" parameterType="User">
+        update
+        user
+        set
+        <if test="user.name!=null">
+            name = #{user.name},
+        </if>
+        <if test="user.phone!=null">
+            phone = #{user.phone}
+        </if>
+        where
+        id = #{user.id}
+    </update>
+
+    <delete id="deleteById">
+		delete from
+		user
+		where
+		id = #{id}
+	</delete>
+
+    <select id="existsUser" parameterType="java.lang.Integer" resultType="java.lang.Boolean">
+       <![CDATA[select
+             count(id)
+        from user
+        where phone = #{phone}]]>
+    </select>
+
+</mapper>
