@@ -28,14 +28,16 @@ public class UserController_Test {
     @MockBean
     private UserService userService;
 
-    @MockBean
-    private User user;
+//    @MockBean
+//    private User user;
 
     @Test
     public void testController() throws Exception {
+        User user = new User();
         user.setId("s01");
         user.setName("张三");
         user.setPhone(26);
+
         when(userService.findById("s01")).thenReturn(user);
 
         this.mockMvc.perform(get("/user/findById").param("id", "s01"))
