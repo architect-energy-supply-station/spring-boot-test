@@ -3,6 +3,7 @@ package com.springboot.demo.springboottest.controller;
 import com.springboot.demo.springboottest.model.User;
 import com.springboot.demo.springboottest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * @Date 2019/10/24 09:39
  */
 
-@RestController
+@Controller
 @RequestMapping(value = "/user")
 public class UserController {
 

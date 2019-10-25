@@ -5,6 +5,7 @@ import com.springboot.demo.springboottest.model.User;
 import com.springboot.demo.springboottest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @Date 2019/10/24 09:40
  */
 @Service("userService")
+@Transactional(transactionManager = "userService")
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -21,21 +23,24 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public void insertByUser(User user) {
+	public boolean insertByUser(User user) {
 		if (userDao.existsUser(user.getPhone())) {
-			return;
+			return true;
 		}
 		userDao.insertByUser(user);
+		return true;
 	}
 
 	@Override
-	public void deleteById(String id) {
+	public boolean deleteById(String id) {
 		 userDao.deleteById(id);
+		return true;
 	}
 
 	@Override
-	public void update(User user) {
+	public boolean update(User user) {
 		 userDao.update(user);
+		return true;
 	}
 
 	@Override
