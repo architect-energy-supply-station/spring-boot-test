@@ -1,8 +1,6 @@
 package com.springboot.demo.springboottest.dao;
 
 import com.springboot.demo.springboottest.model.User;
-import org.flywaydb.core.Flyway;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
@@ -30,8 +28,8 @@ public class UserDaoTest {
 	@Autowired
 	private UserDao userDao;
 
-	@Autowired
-	private Flyway flyway;
+//	@Autowired
+//	private Flyway flyway;
 
 	@Test
 	public void findAll() {
@@ -106,9 +104,9 @@ public class UserDaoTest {
 		Boolean aBoolean = userDao.existsUser(54365);
 		assertThat(aBoolean).isTrue();
 	}
-
-	@After
-	public void cleanDb() {
-		flyway.clean();
-	}
+//
+//	@After
+//	public void cleanDb() {
+//		flyway.clean();
+//	}
 }
