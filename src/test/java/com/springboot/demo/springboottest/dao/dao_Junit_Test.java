@@ -11,9 +11,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.regex.Matcher;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)
@@ -22,14 +25,6 @@ import java.util.regex.Matcher;
 public class dao_Junit_Test {
     @Autowired
     private UserDao userDao;
-
-//    @Before
-//    public void initTest() {
-//        User user = new User();
-//        user.setPhone(123);
-//        user.setName("诺基亚");
-//        user.setId("01");
-//    }
 
     @Test
     public void findAll_Test() {
@@ -69,6 +64,7 @@ public class dao_Junit_Test {
     }
 
     @Test
+    @Transactional
     public void update_Test() {
         User userDaoByPhone = userDao.findByPhone(26);
         userDaoByPhone.setName("王五");
@@ -78,6 +74,7 @@ public class dao_Junit_Test {
     }
 
     @Test
+    @Transactional
     public void insertByUser_Test() {
         List<User> userDaoAll = userDao.findAll();
         int size = userDaoAll.size();
@@ -85,18 +82,19 @@ public class dao_Junit_Test {
         user.setName("美丽");
         user.setId("11");
         user.setPhone(12);
-        userDao.insertByUser(user);
-        userDaoAll = userDao.findAll();
+        boolean b = userDao.insertByUser(user);
+        assertThat(b).isTrue();
 
-        Assert.assertEquals(size+1,userDaoAll.size());
     }
 
     @Test
+    @Transactional
     public void deleteById_Test() {
         List<User> userDaoAll = userDao.findAll();
         int size = userDaoAll.size();
-        userDao.deleteById("S01");
-        Assert.assertTrue();
-    }
+        boolean b = userDao.deleteById("s01");
+        assertThat(b).isEqualTo(true);
+
+
     }
 }
