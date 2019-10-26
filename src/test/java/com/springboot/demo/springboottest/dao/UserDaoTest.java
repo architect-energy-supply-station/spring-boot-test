@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -33,32 +34,33 @@ public class UserDaoTest {
 	private Flyway flyway;
 
 	@Test
-	public void findAll(){
+	public void findAll() {
 		Collection<User> users = userDao.findAll();
 		assertThat(users).hasSize(8);
 	}
 
 
 	@Test
-	public void testFindByName(){
+	public void testFindByName() {
 		User user = userDao.findByName("张三");
 		assertThat(user).isNotNull();
 	}
 
 	@Test
-	public void testFindById(){
+	public void testFindById() {
 		User user = userDao.findById("s08");
 		assertThat(user).isNotNull();
 	}
 
 	@Test
-	public void testFindByPhone(){
+	public void testFindByPhone() {
 		User user = userDao.findByPhone(1234);
 		assertThat(user).isNotNull();
 	}
 
 	@Test
-	public void testInsertByUser(){
+	@Transactional
+	public void testInsertByUser() {
 		Collection<User> users = userDao.findAll();
 		int found = users.size();
 
@@ -74,7 +76,8 @@ public class UserDaoTest {
 
 
 	@Test
-	public void testUpdate(){
+	@Transactional
+	public void testUpdate() {
 		User user = userDao.findById("s08");
 		String oldUserName = user.getName();
 		String newUserName = oldUserName + "X";
@@ -87,7 +90,8 @@ public class UserDaoTest {
 
 
 	@Test
-	public void testDeleteById(){
+	@Transactional
+	public void testDeleteById() {
 		User user = userDao.findById("s02");
 		assertThat(user).isNotNull();
 
@@ -98,7 +102,7 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testExistsUser(){
+	public void testExistsUser() {
 		Boolean aBoolean = userDao.existsUser(54365);
 		assertThat(aBoolean).isTrue();
 	}

@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean insertByUser(User user) {
 		if (userDao.existsUser(user.getPhone())) {
-			return true;
+			return false;
 		}
 		userDao.insertByUser(user);
 		return true;

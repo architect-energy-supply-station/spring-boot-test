@@ -3,6 +3,7 @@ package com.springboot.demo.springboottest.service;
 import com.springboot.demo.springboottest.dao.UserDao;
 import com.springboot.demo.springboottest.model.User;
 import com.springboot.demo.springboottest.service.impl.UserServiceImpl;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,9 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -33,6 +32,7 @@ public class UserServiceTest {
 
 	@Mock
 	private UserDao userDao;
+
 
 	List<User> userList = new ArrayList<>();
 
@@ -105,8 +105,18 @@ public class UserServiceTest {
 	public void testInsertByUser() {
 		User user = new User();
 		when(userDao.insertByUser(any(User.class))).thenReturn(true);
+		//when(userDao.existsUser(12345678)).thenReturn(false);
 		assertTrue(userService.insertByUser(user));
 		verify(userDao, times(1)).insertByUser(any(User.class));
+	}
+
+	@Test
+	public void testInsertByUserFalse() {
+		User user = new User();
+		user.setPhone(12345678);
+		when(userDao.existsUser(12345678)).thenReturn(true);
+		Assert.assertFalse(userService.insertByUser(user));
+		verify(userDao, times(1)).existsUser(anyInt());
 	}
 
 
@@ -114,7 +124,7 @@ public class UserServiceTest {
 	public void testDeleteById() {
 		when(userDao.deleteById("1234")).thenReturn(true);
 		boolean b = userService.deleteById("1234");
-		assertTrue(b);
+		assertEquals(true, b);
 	}
 
 
