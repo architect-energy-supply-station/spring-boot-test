@@ -1,6 +1,9 @@
 package com.springboot.demo.springboottest.dao;
 
 import com.springboot.demo.springboottest.model.User;
+import org.flywaydb.core.Flyway;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
@@ -28,15 +31,18 @@ public class UserDaoTest {
 	@Autowired
 	private UserDao userDao;
 
-//	@Autowired
-//	private Flyway flyway;
+	private static   Flyway flyway;
 
+	@BeforeClass
+	public static void setUp() {
+		flyway = new Flyway();
+		flyway.setDataSource("jdbc:h2:mem:h2test;DB_CLOSE_DELAY=-1;MODE=MySQL", "root", "root");
+	}
 	@Test
 	public void findAll() {
 		Collection<User> users = userDao.findAll();
 		assertThat(users).hasSize(8);
 	}
-
 
 	@Test
 	public void testFindByName() {
@@ -105,8 +111,9 @@ public class UserDaoTest {
 		assertThat(aBoolean).isTrue();
 	}
 //
-//	@After
-//	public void cleanDb() {
-//		flyway.clean();
-//	}
+@AfterClass
+public static void afterClass(){
+	System.out.println("-------------------afterClass");
+	flyway.clean();
+}
 }
