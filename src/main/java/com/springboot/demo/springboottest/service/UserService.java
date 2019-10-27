@@ -10,16 +10,17 @@ import java.util.List;
  * @Auther sunshinezhang
  * @Date 2019/10/24 09:39
  */
+@Service
 public interface UserService {
 
 	//新增
-	void insertByUser(User user);
+	boolean insertByUser(User user);
 
 	//删除
-	void deleteById(String id);
+	boolean deleteById(String id);
 
 	//更新
-	void update(User user);
+	boolean update(User user);
 
 	//查询所有人员
 	List<User> findAll();

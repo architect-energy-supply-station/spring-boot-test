@@ -21,7 +21,7 @@ public interface UserDao {
 	List<User> findAll();
 
 	//根据Id查询人员
-	User findById(@Param(value="id") String id);
+	User 	findById(@Param(value="id") String id);
 
 	//根据姓名查询人员
 	User findByName(@Param(value="name") String name);
@@ -30,13 +30,13 @@ public interface UserDao {
 	User findByPhone(@Param(value="phone") int phone);
 
 	//新增
-	void insertByUser(@Param("user") User user);
+	boolean insertByUser(@Param("user") User user);
 
 	//删除
-	void deleteById(@Param(value = "id") String id);
+	boolean deleteById(@Param(value = "id") String id);
 
 	//更新
-	void update(@Param("user") User user);
+	boolean update(@Param("user") User user);
 
 	//查询人员是否存在
 	Boolean existsUser(@Param(value="phone") int phone);

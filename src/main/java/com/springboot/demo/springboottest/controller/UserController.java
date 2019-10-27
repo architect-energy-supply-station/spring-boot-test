@@ -84,8 +84,8 @@ public class UserController {
 	 * @date 2019/10/24 10:11 上午
 	 */
 	@PostMapping(value = {"/insertByUser"})
-	public void insertByUser(@RequestBody User user){
-		 userService.insertByUser(user);
+	public boolean insertByUser(@RequestBody User user){
+		 return userService.insertByUser(user);
 	}
 
 	/**
@@ -97,8 +97,8 @@ public class UserController {
 	 */
 
 	@PostMapping(value = {"/update"})
-	public void update(@RequestBody User user){
-		 userService.update(user);
+	public boolean update(@RequestBody User user){
+		return userService.update(user);
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class UserController {
 	 * @date 2019/10/24 10:18 上午
 	 */
 	@DeleteMapping(value = {"/deleteById/{id}"})
-	public void deleteById(@PathVariable String id){
-		 userService.deleteById(id);
+	public boolean deleteById(@PathVariable String id){
+		return userService.deleteById(id);
 	}
 }
