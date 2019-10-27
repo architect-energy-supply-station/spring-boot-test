@@ -4,14 +4,10 @@ import com.springboot.demo.springboottest.model.User;
 import org.flywaydb.core.Flyway;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Service;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -23,48 +19,49 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @Auther sunshinezhang
  * @Date 2019/10/24 15:45
  */
-@RunWith(SpringRunner.class)
+@SpringBootTest
 @AutoConfigureMybatis
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class UserDaoTest {
+class UserDaoTest {
 
 	@Autowired
 	private UserDao userDao;
 
-	private static   Flyway flyway;
+	@Autowired
+	private Flyway flyway;
 
 	@BeforeClass
-	public static void setUp() {
-		flyway = new Flyway();
-		flyway.setDataSource("jdbc:h2:mem:h2test;DB_CLOSE_DELAY=-1;MODE=MySQL", "root", "root");
+	 void setUp() {
+		flyway = Flyway.configure().dataSource("jdbc:h2:mem:h2test;DB_CLOSE_DELAY=-1;MODE=MySQL", "root", "root").load();
+
 	}
+
 	@Test
-	public void findAll() {
+	void findAll() {
 		Collection<User> users = userDao.findAll();
 		assertThat(users).hasSize(8);
 	}
 
 	@Test
-	public void testFindByName() {
+	void testFindByName() {
 		User user = userDao.findByName("张三");
 		assertThat(user).isNotNull();
 	}
 
 	@Test
-	public void testFindById() {
+	void testFindById() {
 		User user = userDao.findById("s08");
 		assertThat(user).isNotNull();
 	}
 
 	@Test
-	public void testFindByPhone() {
+	void testFindByPhone() {
 		User user = userDao.findByPhone(1234);
 		assertThat(user).isNotNull();
 	}
 
 	@Test
 	@Transactional
-	public void testInsertByUser() {
+	void testInsertByUser() {
 		Collection<User> users = userDao.findAll();
 		int found = users.size();
 
@@ -81,7 +78,7 @@ public class UserDaoTest {
 
 	@Test
 	@Transactional
-	public void testUpdate() {
+	void testUpdate() {
 		User user = userDao.findById("s08");
 		String oldUserName = user.getName();
 		String newUserName = oldUserName + "X";
@@ -95,7 +92,7 @@ public class UserDaoTest {
 
 	@Test
 	@Transactional
-	public void testDeleteById() {
+	void testDeleteById() {
 		User user = userDao.findById("s02");
 		assertThat(user).isNotNull();
 
@@ -106,14 +103,15 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testExistsUser() {
+	void testExistsUser() {
 		Boolean aBoolean = userDao.existsUser(54365);
 		assertThat(aBoolean).isTrue();
 	}
-//
-@AfterClass
-public static void afterClass(){
-	System.out.println("-------------------afterClass");
-	flyway.clean();
-}
+
+
+	@AfterClass
+	 void afterClass() {
+		System.out.println("-------------------afterClass");
+		flyway.clean();
+	}
 }

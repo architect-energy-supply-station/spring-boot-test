@@ -1,17 +1,17 @@
 package com.springboot.demo.springboottest.controller;
 
- import com.google.gson.Gson;
+import com.google.gson.Gson;
 import com.springboot.demo.springboottest.model.User;
 import com.springboot.demo.springboottest.service.UserService;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -27,10 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @Auther sunshinezhang
  * @Date 2019/10/24 15:41
  */
-@RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
 @AutoConfigureMybatis
-public class UserControllerTest {
+ class UserControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -43,7 +42,7 @@ public class UserControllerTest {
 	User user = new User();
 
 	@Before
-	public void initTestUserListData() {
+	 void initTestUserListData() {
 		User user = new User();
 		user.setName("bill");
 		user.setId("234");
@@ -52,14 +51,14 @@ public class UserControllerTest {
 	}
 
 	@Before
-	public void initTestUserData() {
+	 void initTestUserData() {
 		user.setId("234889");
 		user.setName("sunshine");
 		user.setPhone(123344);
 	}
 
 	@Test
-	public void testFindAllUsers() throws Exception {
+	 void testFindAllUsers() throws Exception {
 		when(userService.findAll()).thenReturn(userList);
 		mockMvc.perform(get("/user/findAllUser"))
 				.andDo(print())
@@ -70,7 +69,7 @@ public class UserControllerTest {
 
 
 	@Test
-	public void testFindById() throws Exception {
+	 void testFindById() throws Exception {
 		when(userService.findById("234889")).thenReturn(user);
 		mockMvc.perform(get("/user/findById/{id}", "234889"))
 				.andDo(print())
@@ -81,7 +80,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testFindByName() throws Exception {
+	 void testFindByName() throws Exception {
 		when(userService.findByName("sunshine")).thenReturn(user);
 		mockMvc.perform(get("/user/findByName/{name}", "sunshine"))
 				.andDo(print())
@@ -92,7 +91,7 @@ public class UserControllerTest {
 
 
 	@Test
-	public void testFindByPhone() throws Exception {
+	 void testFindByPhone() throws Exception {
 		when(userService.findByPhone(123344)).thenReturn(user);
 		mockMvc.perform(get("/user/findByPhone/{phone}", 123344))
 				.andDo(print())
@@ -103,7 +102,7 @@ public class UserControllerTest {
 
 
 	@Test
-	public void testInsertByUser() throws Exception {
+	 void testInsertByUser() throws Exception {
 		User user1 = new User();
 		user1.setId("234889");
 		user1.setName("sunshine2");
@@ -120,7 +119,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testUpdate() throws Exception {
+	 void testUpdate() throws Exception {
 		User user1 = new User();
 		user1.setId("234889");
 		user1.setName("sunshine2");
@@ -138,7 +137,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testDelete() throws Exception {
+	 void testDelete() throws Exception {
 		mockMvc.perform(delete("/user/deleteById/{id}", "234889"))
 				.andDo(print())
 				.andExpect(status().isOk())

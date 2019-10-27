@@ -5,17 +5,17 @@ import com.springboot.demo.springboottest.model.User;
 import com.springboot.demo.springboottest.service.impl.UserServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -23,8 +23,8 @@ import static org.mockito.Mockito.*;
  * @Auther sunshinezhang
  * @Date 2019/10/24 22:42
  */
-@RunWith(SpringRunner.class)
-public class UserServiceTest {
+@SpringBootTest
+ class UserServiceTest {
 
 
 	@InjectMocks
@@ -40,7 +40,7 @@ public class UserServiceTest {
 
 
 	@Before
-	public void initTestUserListData() {
+	 void initTestUserListData() {
 		User user = new User();
 		user.setName("bill");
 		user.setId("234");
@@ -49,14 +49,14 @@ public class UserServiceTest {
 	}
 
 	@Before
-	public void initTestUserData() {
+	 void initTestUserData() {
 		user.setId("1234");
 		user.setName("sunshine");
 		user.setPhone(123456789);
 	}
 
 	@Test
-	public void testFindAll() {
+	 void testFindAll() {
 		when(userDao.findAll()).thenReturn(userList);
 		List<User> users = userService.findAll();
 		assertEquals(userList, users);
@@ -64,7 +64,7 @@ public class UserServiceTest {
 
 
 	@Test
-	public void testFindById() {
+	 void testFindById() {
 		when(userDao.findById("1234")).thenReturn(user);
 		User result = userService.findById("1234");
 		assertEquals(user, result);
@@ -76,7 +76,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testFindByName() {
+	 void testFindByName() {
 		when(userDao.findByName("sunshine")).thenReturn(user);
 		User result = userService.findByName("sunshine");
 		assertEquals(user, result);
@@ -89,7 +89,7 @@ public class UserServiceTest {
 
 
 	@Test
-	public void testFindByPhone() {
+	 void testFindByPhone() {
 		when(userDao.findByPhone(123456789)).thenReturn(user);
 		User result = userService.findByPhone(123456789);
 		assertEquals(user, result);
@@ -102,7 +102,7 @@ public class UserServiceTest {
 
 
 	@Test
-	public void testInsertByUser() {
+	 void testInsertByUser() {
 		User user = new User();
 		when(userDao.insertByUser(any(User.class))).thenReturn(true);
 		//when(userDao.existsUser(12345678)).thenReturn(false);
@@ -111,7 +111,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testInsertByUserFalse() {
+	 void testInsertByUserFalse() {
 		User user = new User();
 		user.setPhone(12345678);
 		when(userDao.existsUser(12345678)).thenReturn(true);
@@ -121,7 +121,7 @@ public class UserServiceTest {
 
 
 	@Test
-	public void testDeleteById() {
+	 void testDeleteById() {
 		when(userDao.deleteById("1234")).thenReturn(true);
 		boolean b = userService.deleteById("1234");
 		assertEquals(true, b);
@@ -129,7 +129,7 @@ public class UserServiceTest {
 
 
 	@Test
-	public void testUpdate() {
+	 void testUpdate() {
 		User user = new User();
 		when(userDao.update(any(User.class))).thenReturn(true);
 		assertTrue(userService.update(user));
