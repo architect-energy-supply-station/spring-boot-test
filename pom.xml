@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <jacoco.report.path>${project.build.directory}/coverage-reports/jacoco-ut</jacoco.report.path>
     </properties>
 
     <dependencies>
@@ -80,6 +81,7 @@
             <version>2.8.6</version>
         </dependency>
 
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -102,6 +104,43 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.4</version>
+<!--                <executions>-->
+<!--                    &lt;!&ndash; 准备指向Jacoco运行时Agent的属性，在测试执行之前传递给虚拟机参数 &ndash;&gt;-->
+<!--                    <execution>-->
+<!--                        <id>pre-unit-test</id>-->
+<!--                        <goals>-->
+<!--                            <goal>prepare-agent</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; 设置覆盖率数据文件路径 &ndash;&gt;-->
+<!--                            <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                    &lt;!&ndash; 确保在单元测试执行之后生成覆盖率报告 &ndash;&gt;-->
+<!--                    <execution>-->
+<!--                        <id>post-unit-test</id>-->
+<!--                        <phase>test</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>report</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; 引用覆盖率文件的路径&ndash;&gt;-->
+<!--                            <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>-->
+<!--                            &lt;!&ndash; 设置覆盖率报告存放路径. &ndash;&gt;-->
+<!--                            <outputDirectory>${jacoco.report.path}</outputDirectory>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+                <configuration>
+<!--                    <systemPropertyVariables>-->
+<!--                        <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>-->
+<!--                    </systemPropertyVariables>-->
+                </configuration>
             </plugin>
         </plugins>
     </build>
