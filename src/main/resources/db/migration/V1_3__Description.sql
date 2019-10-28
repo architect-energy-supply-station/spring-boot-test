@@ -4,6 +4,7 @@ name char(20),
 phone INTEGER
 );
 
+
 insert into user values(
  's01',
  '张三',
@@ -33,14 +34,5 @@ insert into user values(
  's06',
  'xiaopang',
  42431
-);
-insert into user values(
- 's07',
- '海贼王',
- 7461
-);
-insert into user values(
- 's08',
- '王者荣耀',
- 1234
 )
+

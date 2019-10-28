@@ -72,7 +72,6 @@ public class UserController_Test {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
-
     }
 
     @Test

@@ -29,8 +29,8 @@ public class dao_Junit_Test {
     @Autowired
     private UserDao userDao;
 
-//@Autowired
-    public static Flyway flyway ;
+@Autowired
+    public  static Flyway flyway ;
 
     @BeforeClass
     public static void setUp() {
@@ -42,7 +42,7 @@ public class dao_Junit_Test {
     public void findAll_Test() {
         List<User> all = userDao.findAll();
         int size = all.size();
-        Assert.assertEquals(size,8);
+        Assert.assertEquals(size,6);
     }
 
     @Test

@@ -14,17 +14,10 @@
     <name>spring-boot-test</name>
     <description>Demo project for Spring Boot</description>
 
-<!--    <properties>-->
-<!--        <properties>-->
-<!--&lt;!&ndash;            <maven.compiler.encoding>UTF-8</maven.compiler.encoding>&ndash;&gt;-->
-<!--&lt;!&ndash;            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>&ndash;&gt;-->
-
-<!--            &lt;!&ndash; 默认跳过测试 &ndash;&gt;-->
-<!--            <maven.test.skip>true</maven.test.skip>-->
-<!--            &lt;!&ndash; 设置覆盖率报告位置，配置成属性的目的是便于命令行改变位置 &ndash;&gt;-->
-<!--            <jacoco.report.path>${project.build.directory}/coverage-reports/jacoco-ut</jacoco.report.path>-->
-<!--        </properties>-->
-<!--    </properties>-->
+    <properties>
+        <java.version>1.8</java.version>
+        <jacoco.report.path>${project.build.directory}/coverage-reports/jacoco-ut</jacoco.report.path>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -72,11 +65,7 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
-        </dependency>
+
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -89,23 +78,14 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.11</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>3.2.1</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.flywaydb</groupId>-->
-<!--            <artifactId>flyway-core</artifactId>-->
-<!--            <version>6.0.6</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+
 
     </dependencies>
 
