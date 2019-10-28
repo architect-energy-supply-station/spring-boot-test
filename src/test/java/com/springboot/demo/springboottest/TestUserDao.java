@@ -2,9 +2,12 @@ package com.springboot.demo.springboottest;
 
 import com.springboot.demo.springboottest.dao.UserDao;
 import com.springboot.demo.springboottest.model.User;
+import com.springboot.demo.springboottest.service.UserService;
 import com.springboot.demo.springboottest.service.impl.UserServiceImpl;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +28,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -32,26 +36,36 @@ import static org.testng.AssertJUnit.assertNotNull;
 @SpringBootTest(classes = {UserDao.class})
 @AutoConfigureMybatis
 @TestExecutionListeners(listeners = MockitoTestExecutionListener.class)
-//@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class TestUserDao extends AbstractTestNGSpringContextTests {
     //
 //    @Mock
 //    private UserDao userDao;
+//    @Mock // 定义 dao 层对象
+//    private UserMapper userMapper;
+//    @InjectMocks
+//    private UserService userService = new UserServiceImpl();
 
-        @Autowired
+
+
+//        @Autowired
 //    @Qualifier("userDao")
 //    @Mock
+    @Resource
     private UserDao userDao;
 
 
-    private User user;
+    private User user=new User();
+
+    private List<User> list=new ArrayList<> ();
 
     @BeforeMethod
     public void initUser() {
-        user = new User();
-        user.setId("123");
+        this.user = new User();
+        this.user.setId("123");
         user.setPhone(123456);
         user.setName("Chris");
+        this.list.add(user);
     }
 
 
@@ -67,14 +81,19 @@ public class TestUserDao extends AbstractTestNGSpringContextTests {
 //        assertNotNull(userDao) ;
 //        user = userDao.registerUser(user);
 //        assertNotNull(user.getId()) ;
-        assertEquals(user,userDao.findById("123"));
+////        assertEquals(user,userDao.findById("123"));
+//        when(userDao.findById("123")).thenReturn(user);
+//        assertEquals(user,userDao.findById("123"));
+
+
+
 
     }
 
-    @Test
-    public void testInsertUser() {
+//    @Test
+//    public void testInsertUser() {
 //        assertEquals(true,userDao.insertByUser(user));
-    }
+//    }
 
     @Test
     public void testFindByName() {
