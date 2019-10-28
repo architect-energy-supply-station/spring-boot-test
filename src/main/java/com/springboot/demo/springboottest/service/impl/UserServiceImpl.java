@@ -21,21 +21,24 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public void insertByUser(User user) {
+	public Boolean insertByUser(User user) {
 		if (userDao.existsUser(user.getPhone())) {
-			return;
+			return true;
 		}
 		userDao.insertByUser(user);
+		return true;
 	}
 
 	@Override
-	public void deleteById(String id) {
-		 userDao.deleteById(id);
+	public Boolean deleteById(String id) {
+		userDao.deleteById(id);
+		return true;
 	}
 
 	@Override
-	public void update(User user) {
-		 userDao.update(user);
+	public Boolean update(User user) {
+		userDao.update(user);
+		return true;
 	}
 
 	@Override

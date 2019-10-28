@@ -1,7 +1,6 @@
 package com.springboot.demo.springboottest.service;
 
 import com.springboot.demo.springboottest.model.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,13 +12,13 @@ import java.util.List;
 public interface UserService {
 
 	//新增
-	void insertByUser(User user);
+	Boolean insertByUser(User user);
 
 	//删除
-	void deleteById(String id);
+	Boolean deleteById(String id);
 
 	//更新
-	void update(User user);
+	Boolean update(User user);
 
 	//查询所有人员
 	List<User> findAll();
