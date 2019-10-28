@@ -1,20 +1,22 @@
 package com.springboot.demo.springboottest.dao;
 
 import com.springboot.demo.springboottest.model.User;
+
+import com.springboot.demo.springboottest.service.UserService;
+import org.flywaydb.core.Flyway;
+import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.regex.Matcher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,8 +25,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMybatis
 @DataJpaTest
 public class dao_Junit_Test {
+
     @Autowired
     private UserDao userDao;
+
+//@Autowired
+    public static Flyway flyway ;
+
+    @BeforeClass
+    public static void setUp() {
+        flyway = new Flyway();
+        flyway.setDataSource("jdbc:h2:mem:h2test;DB_CLOSE_DELAY=-1;MODE=MySQL", "root", "root");
+    }
 
     @Test
     public void findAll_Test() {
@@ -96,5 +108,10 @@ public class dao_Junit_Test {
         assertThat(b).isEqualTo(true);
 
 
+    }
+
+    @AfterClass
+    public static void afterClass(){
+        flyway.clean();
     }
 }
