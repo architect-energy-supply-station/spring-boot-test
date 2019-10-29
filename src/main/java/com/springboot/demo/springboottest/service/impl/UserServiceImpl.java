@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean deleteById(String id) {
 		 return userDao.deleteById(id);
+
+
 	}
 
 	@Override
@@ -42,11 +44,9 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAll() {
 		return userDao.findAll();
 	}
+	//endregion
 
-	@Override
-	public User findById(String id) {
-		return userDao.findById(id);
-	}
+	@Override public User findById(String id) { return userDao.findById(id); }
 
 	@Override
 	public User findByName(String name) {

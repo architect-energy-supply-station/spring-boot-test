@@ -3,14 +3,13 @@ package com.springboot.demo.springboottest;
 import com.springboot.demo.springboottest.dao.UserDao;
 import com.springboot.demo.springboottest.model.User;
 import com.springboot.demo.springboottest.service.impl.UserServiceImpl;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -73,6 +72,7 @@ public class TestServiceImpl extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    @Transactional
     public void testUpdateByUser() {
         user.setId("6688");
         when(userDao.update(user)).thenReturn(true);
@@ -81,12 +81,14 @@ public class TestServiceImpl extends AbstractTestNGSpringContextTests {
     }
 
 //    @Test
+//    @Transactional
 //    public void testInsertUser() {
 //        when(userDao.update(user)).thenReturn(true);
 //        Assert.assertEquals(userServiceImpl.insertByUser(user),true);
 //    }
 
     @Test
+    @Transactional
     public void testDeleteById() {
         when(userDao.deleteById("123")).thenReturn(true);
         Assert.assertEquals(userServiceImpl.deleteById("123"),true);

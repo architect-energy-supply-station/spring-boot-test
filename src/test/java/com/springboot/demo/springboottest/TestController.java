@@ -1,10 +1,10 @@
 package com.springboot.demo.springboottest;
-import	java.lang.annotation.Target;
 
+import com.google.gson.Gson;
 import com.springboot.demo.springboottest.controller.UserController;
+import com.springboot.demo.springboottest.dao.UserDao;
 import com.springboot.demo.springboottest.model.User;
 import com.springboot.demo.springboottest.service.UserService;
-import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,18 +14,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
@@ -38,6 +36,8 @@ public class TestController extends AbstractTestNGSpringContextTests {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private UserDao userDao;
     private User user;
 
     private List<User> list;
@@ -48,7 +48,7 @@ public class TestController extends AbstractTestNGSpringContextTests {
         user.setId("123");
         user.setPhone(123456);
         user.setName("Chris");
-       User user1 = new User();
+        User user1 = new User();
         user1.setId("345");
         user1.setPhone(123456);
         user1.setName("bill");
@@ -59,12 +59,10 @@ public class TestController extends AbstractTestNGSpringContextTests {
     }
 
 
-
     @Test
     public void testFindById() throws Exception {
         when(userService.findById("123")).thenReturn(user);
-        this.mvc.perform(get("/user/findById/{id}","123"))
-//        this.mvc.perform(get("/user/findById/{id}").param("id","123"))
+        this.mvc.perform(get("/user/findById/{id}", "123"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -92,32 +90,33 @@ public class TestController extends AbstractTestNGSpringContextTests {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
-//
-//    @Test
-//    public void testUpdate() throws Exception {
-//        User user = new User();
-//        user.setId("6688");
-//        user.setPhone(6688);
-//        user.setName("6688");
-//
-//        when(userService.update(user)).thenReturn(true);
-//        this.mvc.perform(post("/user/update"))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//    }
 
     @Test
+    @Transactional
+    public void testUpdate() throws Exception {
+        Gson gson = new Gson();
+
+        this.mvc.perform(post("/user/update").contentType((MediaType.APPLICATION_JSON)).content(gson.toJson(user)))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+
+    }
+
+    @Test
+    @Transactional
     public void testDelete() throws Exception {
         when(userService.deleteById("123")).thenReturn(true);
-        this.mvc.perform(delete("/user/deleteById/{id}","123"))
+        this.mvc.perform(delete("/user/deleteById/{id}", "123"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
     }
 
     @Test
+    @Transactional
     public void testInsertUser() throws Exception {
-//        given(this.userService.insertByUser(user)).willReturn(false);
+
         this.mvc.perform(post("/user/insertByUser").contentType(MediaType.APPLICATION_JSON).content("{\n" +
                 "  \"id\": \"demoData\",\n" +
                 "  \"name\": \"demoData\",\n" +

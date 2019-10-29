@@ -2,131 +2,110 @@ package com.springboot.demo.springboottest;
 
 import com.springboot.demo.springboottest.dao.UserDao;
 import com.springboot.demo.springboottest.model.User;
-import com.springboot.demo.springboottest.service.UserService;
-import com.springboot.demo.springboottest.service.impl.UserServiceImpl;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.flywaydb.core.Flyway;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Service;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import javax.annotation.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
 
-//@TestExecutionListeners(listeners = MockitoTestExecutionListener.class)
-@SpringBootTest(classes = {UserDao.class})
+
+@SpringBootTest
 @AutoConfigureMybatis
-@TestExecutionListeners(listeners = MockitoTestExecutionListener.class)
-@RunWith(MockitoJUnitRunner.class)
 public class TestUserDao extends AbstractTestNGSpringContextTests {
-    //
-//    @Mock
-//    private UserDao userDao;
-//    @Mock // 定义 dao 层对象
-//    private UserMapper userMapper;
-//    @InjectMocks
-//    private UserService userService = new UserServiceImpl();
 
 
-
-//        @Autowired
-//    @Qualifier("userDao")
-//    @Mock
-    @Resource
+    @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private Flyway flyway;
 
-    private User user=new User();
 
-    private List<User> list=new ArrayList<> ();
+    private User user = new User();
+
+    private List<User> list = new ArrayList<>();
 
     @BeforeMethod
     public void initUser() {
-        this.user = new User();
-        this.user.setId("123");
-        user.setPhone(123456);
-        user.setName("Chris");
+        user.setId("s01");
+        user.setName("张三");
+        user.setPhone(26);
         this.list.add(user);
+
+
+    }
+
+    @BeforeClass
+    void setUp() {
+        flyway = Flyway.configure().dataSource("jdbc:h2:mem:h2test;DB_CLOSE_DELAY=-1;MODE=MySQL", "root", "root").load();
+
     }
 
 
     @Test
     public void testFindById() {
-//        assertNotNull(userDao);
-//        user = userDao.findById("123");
-//        assertNotNull(user.getId());
-//        User user1 = userDao.findById("s01");
-//        assertNotNull(user1);
-//        assertEquals(userDao.findById("123"),user);
 
-//        assertNotNull(userDao) ;
-//        user = userDao.registerUser(user);
-//        assertNotNull(user.getId()) ;
-////        assertEquals(user,userDao.findById("123"));
-//        when(userDao.findById("123")).thenReturn(user);
-//        assertEquals(user,userDao.findById("123"));
-
-
+        System.out.println(userDao);
+        assertEquals(user, userDao.findById("s01"));
 
 
     }
 
-//    @Test
-//    public void testInsertUser() {
-//        assertEquals(true,userDao.insertByUser(user));
-//    }
+    @Test
+    @Transactional
+    public void testInsertUser() {
+        User user1 = new User();
+        user1.setName("s10");
+        user1.setPhone(6688);
+        user1.setId("s10");
+        assertEquals(true, userDao.insertByUser(user1));
+    }
 
     @Test
     public void testFindByName() {
-//        assertEquals(userDao.findByName("Chris"),user);
+
+        assertEquals(user, userDao.findByName("张三"));
     }
 
     @Test
     public void testFindByPhone() {
-//        assertEquals(userDao.findByPhone(123456), user);
+        assertEquals(user, userDao.findByPhone(26));
     }
 
     @Test
     public void testFindAllUser() {
-//        List<User> list = new ArrayList<>();
-//        list.add(user);
-//        assertEquals(list.equals(user),true);
+        assertEquals(7, userDao.findAll().size());
+
     }
 
     @Test
+    @Transactional
     public void testUpdate() {
-//        user.setId("6688");
-//        System.out.println("userId" + user.getId());
-//        assertEquals(userDao.update(user), true);
+        User s01 = userDao.findById("s01");
+        s01.setName("Chris");
+        assertEquals(true, userDao.update(s01));
     }
 
     @Test
+    @Transactional
     public void testDeleteId() {
-//        User user1 = new User();
-//        user1.setId("456");
-//        user1.setName("SunShine");
-//        user1.setPhone(7890);
-//        userDao.insertByUser(user1);
-//        assertEquals(userDao.deleteById("456"), true);
+        assertEquals(true, userDao.deleteById("s08"));
+    }
+
+    @AfterClass
+    void afterClass() {
+        System.out.println("-------------------afterClass");
+        flyway.clean();
     }
 }
-//@SpringBootApplication(scanBasePackageClasses = UserDao.class)
+
