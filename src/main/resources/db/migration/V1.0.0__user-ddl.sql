@@ -11,7 +11,7 @@ insert into user values(
 );
 insert into user values(
  's02',
- '春天里asdglkj',
+ '春天里',
  2345
 );
 insert into user values(

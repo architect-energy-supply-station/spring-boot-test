@@ -14,11 +14,7 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @Classname UserDaoTest
- * @Auther sunshinezhang
- * @Date 2019/10/24 15:45
- */
+
 @SpringBootTest
 @AutoConfigureMybatis
 class UserDaoTest {
@@ -67,8 +63,8 @@ class UserDaoTest {
 
 		User user = new User();
 		user.setId("18");
-		user.setName("sunshine");
-		user.setPhone(1833364);
+		user.setName("betty");
+		user.setPhone(1234567);
 		userDao.insertByUser(user);
 
 		users = userDao.findAll();

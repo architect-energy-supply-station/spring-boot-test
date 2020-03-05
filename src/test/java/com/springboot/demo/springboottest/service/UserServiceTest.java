@@ -18,11 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
-/**
- * @Classname UserServiceTest
- * @Auther sunshinezhang
- * @Date 2019/10/24 22:42
- */
+
 @SpringBootTest
  class UserServiceTest {
 
@@ -42,16 +38,16 @@ import static org.mockito.Mockito.*;
 	@Before
 	 void initTestUserListData() {
 		User user = new User();
-		user.setName("bill");
-		user.setId("234");
+		user.setName("betty");
+		user.setId("123");
 		user.setPhone(1234);
 		userList.add(user);
 	}
 
 	@Before
 	 void initTestUserData() {
-		user.setId("1234");
-		user.setName("sunshine");
+		user.setId("123");
+		user.setName("betty");
 		user.setPhone(123456789);
 	}
 
@@ -77,13 +73,12 @@ import static org.mockito.Mockito.*;
 
 	@Test
 	 void testFindByName() {
-		when(userDao.findByName("sunshine")).thenReturn(user);
-		User result = userService.findByName("sunshine");
+		when(userDao.findByName("betty")).thenReturn(user);
+		User result = userService.findByName("betty");
 		assertEquals(user, result);
 
-
 		when(userDao.findByName(Mockito.anyString())).thenReturn(user);
-		result = userService.findByName("sunshine");
+		result = userService.findByName("betty");
 		assertEquals(user, result);
 	}
 
@@ -93,7 +88,6 @@ import static org.mockito.Mockito.*;
 		when(userDao.findByPhone(123456789)).thenReturn(user);
 		User result = userService.findByPhone(123456789);
 		assertEquals(user, result);
-
 
 		when(userDao.findByPhone(Mockito.anyInt())).thenReturn(user);
 		result = userService.findByPhone(123456789);
@@ -105,7 +99,6 @@ import static org.mockito.Mockito.*;
 	 void testInsertByUser() {
 		User user = new User();
 		when(userDao.insertByUser(any(User.class))).thenReturn(true);
-		//when(userDao.existsUser(12345678)).thenReturn(false);
 		assertTrue(userService.insertByUser(user));
 		verify(userDao, times(1)).insertByUser(any(User.class));
 	}

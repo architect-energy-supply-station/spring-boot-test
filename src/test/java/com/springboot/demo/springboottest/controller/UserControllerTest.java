@@ -22,127 +22,123 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @Classname UserControllerTest
- * @Auther sunshinezhang
- * @Date 2019/10/24 15:41
- */
+
 @WebMvcTest(UserController.class)
 @AutoConfigureMybatis
- class UserControllerTest {
+class UserControllerTest {
 
-	@Autowired
-	private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-	@MockBean
-	private UserService userService;
+    @MockBean
+    private UserService userService;
 
-	List<User> userList = new ArrayList<>();
+    List<User> userList = new ArrayList<>();
 
-	User user = new User();
+    User user = new User();
 
-	@Before
-	 void initTestUserListData() {
-		User user = new User();
-		user.setName("bill");
-		user.setId("234");
-		user.setPhone(1234);
-		userList.add(user);
-	}
+    @Before
+    void initTestUserListData() {
+        User user = new User();
+        user.setName("betty");
+        user.setId("123");
+        user.setPhone(1234);
+        userList.add(user);
+    }
 
-	@Before
-	 void initTestUserData() {
-		user.setId("234889");
-		user.setName("sunshine");
-		user.setPhone(123344);
-	}
+    @Before
+    void initTestUserData() {
+        user.setId("123123");
+        user.setName("betty");
+        user.setPhone(121221);
+    }
 
-	@Test
-	 void testFindAllUsers() throws Exception {
-		when(userService.findAll()).thenReturn(userList);
-		mockMvc.perform(get("/user/findAllUser"))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse();
-	}
-
-
-	@Test
-	 void testFindById() throws Exception {
-		when(userService.findById("234889")).thenReturn(user);
-		mockMvc.perform(get("/user/findById/{id}", "234889"))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse();
-
-	}
-
-	@Test
-	 void testFindByName() throws Exception {
-		when(userService.findByName("sunshine")).thenReturn(user);
-		mockMvc.perform(get("/user/findByName/{name}", "sunshine"))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse();
-	}
+    @Test
+    void testFindAllUsers() throws Exception {
+        when(userService.findAll()).thenReturn(userList);
+        mockMvc.perform(get("/user/findAllUser"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+    }
 
 
-	@Test
-	 void testFindByPhone() throws Exception {
-		when(userService.findByPhone(123344)).thenReturn(user);
-		mockMvc.perform(get("/user/findByPhone/{phone}", 123344))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse();
-	}
+    @Test
+    void testFindById() throws Exception {
+        when(userService.findById("123123")).thenReturn(user);
+        mockMvc.perform(get("/user/findById/{id}", "123123"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+    }
+
+    @Test
+    void testFindByName() throws Exception {
+        when(userService.findByName("betty")).thenReturn(user);
+        mockMvc.perform(get("/user/findByName/{name}", "betty"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+    }
 
 
-	@Test
-	 void testInsertByUser() throws Exception {
-		User user1 = new User();
-		user1.setId("234889");
-		user1.setName("sunshine2");
-		user1.setPhone(123344222);
-		Gson gson = new Gson();
-		String json = gson.toJson(user1);
-		mockMvc.perform(post("/user/insertByUser")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse();
-	}
+    @Test
+    void testFindByPhone() throws Exception {
+        when(userService.findByPhone(123123)).thenReturn(user);
+        mockMvc.perform(get("/user/findByPhone/{phone}", 123123))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+    }
 
-	@Test
-	 void testUpdate() throws Exception {
-		User user1 = new User();
-		user1.setId("234889");
-		user1.setName("sunshine2");
-		user1.setPhone(123344222);
-		Gson gson = new Gson();
-		String json = gson.toJson(user1);
-		when(userService.findById("234889")).thenReturn(user);
-		mockMvc.perform(post("/user/update")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse();
-	}
 
-	@Test
-	 void testDelete() throws Exception {
-		mockMvc.perform(delete("/user/deleteById/{id}", "234889"))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse();
-	}
+    @Test
+    void testInsertByUser() throws Exception {
+        User user1 = new User();
+        user1.setId("123123");
+        user1.setName("betty");
+        user1.setPhone(1231231321);
+        Gson gson = new Gson();
+        String json = gson.toJson(user1);
+        mockMvc.perform(post("/user/insertByUser")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+    }
+
+    @Test
+    void testUpdate() throws Exception {
+        User user1 = new User();
+        user1.setId("123123");
+        user1.setName("betty");
+        user1.setPhone(1231213213);
+        Gson gson = new Gson();
+        String json = gson.toJson(user1);
+        when(userService.findById("betty")).thenReturn(user);
+        mockMvc.perform(post("/user/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+    }
+
+    @Test
+    void testDelete() throws Exception {
+        mockMvc.perform(delete("/user/deleteById/{id}", "123123"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+    }
 
 }
